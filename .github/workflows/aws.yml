@@ -59,7 +59,7 @@ jobs:
         ECR_REGISTRY: $
         ECR_REPOSITORY: test
         #IMAGE_TAG: ${{ github.sha }}
-        IMAGE_TAG: $
+        IMAGE_TAG: test
       run: |
         # Build a docker container and
         # push it to ECR so that it can
