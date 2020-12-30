@@ -55,17 +55,19 @@ jobs:
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        #ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REGISTRY: $
         ECR_REPOSITORY: test
-        IMAGE_TAG: ${{ github.sha }}
+        #IMAGE_TAG: ${{ github.sha }}
+        IMAGE_TAG: $
       run: |
         # Build a docker container and
         # push it to ECR so that it can
         # be deployed to ECS.
-        #docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker build -t 482564346941.dkr.ecr.ap-northeast-2.amazonaws.com/test:test .
-        #docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        docker push 482564346941.dkr.ecr.ap-northeast-2.amazonaws.com/test:test
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        #docker build -t 482564346941.dkr.ecr.ap-northeast-2.amazonaws.com/test:test .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        #docker push 482564346941.dkr.ecr.ap-northeast-2.amazonaws.com/test:test
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
     - name: Fill in the new image ID in the Amazon ECS task definition
@@ -74,7 +76,8 @@ jobs:
       with:
         task-definition: task-definition.json
         container-name: alpine
-        image: ${{ steps.build-image.outputs.image }}
+        #image: ${{ steps.build-image.outputs.image }}
+        image: $ 
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
